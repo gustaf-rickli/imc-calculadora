@@ -2,245 +2,102 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-
 #include <locale.h>
+#include <stdarg.h>
 #include <windows.h>
 
 #define MAX_CLIENTES 100
-#define ARQUIVO_HISTORICO "historico_imc.txt"
+#define ARQUIVO_DADOS "clientes_imc.dat"
 
-//PREDEFINIÇÃO
-#define RESET   "\033[0m"
-//TEXTO INVISÍVEL
-#define INV  "\033[8m"       
+#define MASCULINO 'M'
+#define FEMININO 'F'
 
-//DESTAQUE FORTE
-#define DEST  "\033[1m"
+// Estrutura para gerenciar cores do console
+typedef struct {
+    const char* reset;
+    const char* preto;
+    const char* branco;
+    const char* vermelho;
+    const char* verde;
+    const char* amarelo;
+    const char* azul;
+    const char* fundo_preto;
+    const char* fundo_branco;
+    const char* fundo_vermelho;
+    const char* fundo_verde;
+    const char* fundo_amarelo;
+} ConsoleCores;
 
-//SEM DESTAQUE FORTE
-#define SDEST "\033[22m"
-
-//COR DOS TITULOS 1
-#define COR_T "\033[37m"
-
-//COR PESO
-#define COR_E_P "\033[44m"
-#define COR_P "\033[37m"
-#define PDEST  "\033[1m"
-
-//COR ALTURA
-#define COR_E_A "\033[104m"
-#define COR_A "\033[37m"
-#define ADEST  "\033[1m"
-
-
-//COR LINHA TABELA (reduzida) 1 
-#define COR_L "\033[37m"
-#define COR_E_L "\033[40m"
-#define DESTL  "\033[1m"
-
-
-//COR DO TEXTO 1
-#define COR_1 "\033[37m"
-#define COR_2 "\033[37m"
-#define COR_3 "\033[37m"
-#define COR_4 "\033[37m"
-#define COR_5 "\033[37m"
-#define COR_6 "\033[30m"
-#define COR_7 "\033[31m"
-
-
-// DESTAQUES DO TEXTO 1
-#define DEST1  "\033[1m"
-#define DEST2  "\033[1m"
-#define DEST3  "\033[1m"
-#define DEST4  "\033[1m"
-#define DEST5  "\033[1m"
-#define DEST6  "\033[22m"
-#define DEST7  "\033[22m"
-
-//COR DO FUNDO 1
-#define COR_E_1 "\033[101m"   // vermelho brilhante
-#define COR_E_2 "\033[43m"    // amarelo
-#define COR_E_3 "\033[42m"    // verde
-#define COR_E_4 "\033[43m"    // amarelo
-#define COR_E_5 "\033[101m"   // vermelho brilhante
-#define COR_E_6 "\033[41m"    // vermelho
-#define COR_E_7 "\033[40m"    // preto 
-
+// Estrutura para armazenar dados do cliente
 typedef struct {
     char nome[50];
     char sexo; // 'M' ou 'F'
     float peso;
     float altura;
     float imc;
-    char classificacao[50];
+    char classificacao[30];
 } Cliente;
 
-Cliente historico[MAX_CLIENTES];
+// Variáveis globais
+Cliente clientes[MAX_CLIENTES];
 int totalClientes = 0;
+ConsoleCores cor;
 
-void limparBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
+// Protótipos de funções
+void inicializarCores();
+void liberarCores();
+void imprimirColorido(const char* cor, const char* formato, ...);
+void limparBuffer();
+float lerFloatPositivo(const char* mensagem);
+void calcularIMC(Cliente *cliente);
+void cadastrarCliente();
+void listarClientes();
+void pesquisarCliente();
+void salvarDados();
+void carregarDados();
+void mostrarMenu();
+void imprimirTabelaIMC();
+void configuracoes();
 
-float lerFloatPositivo(char *mensagem) {
-    float valor;
+void imprimirTabelaIMC_Homem();
+void imprimirTabelaIMC_Mulher();
+
+int main() {
+    configuracoes();
+    inicializarCores();
+    carregarDados();
+
+    int opcao;
     do {
-        printf("%s", mensagem);
-        scanf("%f", &valor);
+        mostrarMenu();
+        scanf("%d", &opcao);
         limparBuffer();
-        if (valor <= 0) {
-            printf("Valor inválido! Digite um número positivo.\n");
+        
+        system("cls");
+        switch(opcao) {
+            case 1:
+                imprimirTabelaIMC();
+                cadastrarCliente();
+                break;
+            case 2:
+                listarClientes();
+                break;
+            case 3:
+                pesquisarCliente();
+                break;
+            case 5:
+                imprimirColorido(cor.verde, "Saindo...\n");
+                break;
+            default:
+                imprimirColorido(cor.vermelho, "Opção inválida!\n");
         }
-    } while (valor <= 0);
-    return valor;
+    } while (opcao != 5);
+
+    liberarCores();
+    return 0;
 }
 
-void calcularIMC(Cliente *cliente) {
-    cliente->imc = cliente->peso / (cliente->altura * cliente->altura);
-    
-    if (cliente->sexo == 'M' || cliente->sexo == 'm') {
-        if (cliente->imc < 20.7) strcpy(cliente->classificacao, "Abaixo do peso");
-        else if (cliente->imc < 26.4) strcpy(cliente->classificacao, "Peso normal");
-        else if (cliente->imc < 27.8) strcpy(cliente->classificacao, "Marginalmente acima do peso");
-        else if (cliente->imc < 31.1) strcpy(cliente->classificacao, "Acima do peso ideal");
-        else strcpy(cliente->classificacao, "Obeso");
-    } else {
-        if (cliente->imc < 19.1) strcpy(cliente->classificacao, "Abaixo do peso");
-        else if (cliente->imc < 25.8) strcpy(cliente->classificacao, "Peso normal");
-        else if (cliente->imc < 27.3) strcpy(cliente->classificacao, "Marginalmente acima do peso");
-        else if (cliente->imc < 32.3) strcpy(cliente->classificacao, "Acima do peso ideal");
-        else strcpy(cliente->classificacao, "Obeso");
-    }
-}
-
-void cadastrarCliente() {
-    if (totalClientes >= MAX_CLIENTES) {
-        printf("Limite de clientes atingido!\n");
-        return;
-    }
-    
-    Cliente novo;
-    
-    printf("\n--- Cadastro de Cliente ---\n");
-    
-    printf("Nome: ");
-    fgets(novo.nome, 50, stdin);
-    novo.nome[strcspn(novo.nome, "\n")] = 0; // Remove o \n
-    
-    do {
-        printf("Sexo (M/F): ");
-        scanf(" %c", &novo.sexo);
-        limparBuffer();
-        novo.sexo = toupper(novo.sexo);
-        if (novo.sexo != 'M' && novo.sexo != 'F') {
-            printf("Sexo inválido! Digite M ou F.\n");
-        }
-    } while (novo.sexo != 'M' && novo.sexo != 'F');
-    
-    novo.peso = lerFloatPositivo("Peso (kg): ");
-    novo.altura = lerFloatPositivo("Altura (m): ");
-    
-    calcularIMC(&novo);
-    
-    historico[totalClientes++] = novo;
-    
-    printf("\nIMC calculado: %.2f - %s\n", novo.imc, novo.classificacao);
-}
-
-void listarHistorico() {
-    printf("\n--- Histórico de Clientes ---\n");
-    printf("%-30s %-5s %-8s %-8s %-8s %s\n", 
-           "Nome", "Sexo", "Peso", "Altura", "IMC", "Classificação");
-    
-    for (int i = 0; i < totalClientes; i++) {
-        printf("%-30s %-5c %-8.2f %-8.2f %-8.2f %s\n", 
-               historico[i].nome, 
-               historico[i].sexo, 
-               historico[i].peso, 
-               historico[i].altura, 
-               historico[i].imc, 
-               historico[i].classificacao);
-    }
-}
-
-void salvarHistorico() {
-    FILE *arquivo = fopen(ARQUIVO_HISTORICO, "w");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir arquivo para salvar!\n");
-        return;
-    }
-    
-    for (int i = 0; i < totalClientes; i++) {
-        fprintf(arquivo, "%s;%c;%.2f;%.2f;%.2f;%s\n", 
-                historico[i].nome, 
-                historico[i].sexo, 
-                historico[i].peso, 
-                historico[i].altura, 
-                historico[i].imc, 
-                historico[i].classificacao);
-    }
-    
-    fclose(arquivo);
-    printf("Histórico salvo com sucesso!\n");
-}
-
-void carregarHistorico() {
-    FILE *arquivo = fopen(ARQUIVO_HISTORICO, "r");
-    if (arquivo == NULL) {
-        return; // Arquivo não existe ainda
-    }
-    
-    totalClientes = 0;
-    while (!feof(arquivo) && totalClientes < MAX_CLIENTES) {
-        Cliente temp;
-        if (fscanf(arquivo, "%49[^;];%c;%f;%f;%f;%49[^\n]\n", 
-                   temp.nome, &temp.sexo, &temp.peso, &temp.altura, &temp.imc, temp.classificacao) == 6) {
-            historico[totalClientes++] = temp;
-        }
-    }
-    
-    fclose(arquivo);
-}
-
-void mostrarMenu() {
-    printf("\n=== CALCULADORA DE IMC ===\n");
-    printf("1. Calcular IMC\n");
-    printf("2. Ver histórico\n");
-    printf("3. Salvar histórico\n");
-    printf("4. Sair\n");
-    printf("Escolha uma opção: ");
-}
-
-void imprimirTabelaIMC() {
-    printf("\n\033[1;37m=== TABELA DE CLASSIFICAÇÃO IMC ===\033[0m\n");
-    
-    // Tabela para homens
-    printf("\n\t\033[1;34mCLASSIFICAÇÃO PARA HOMENS\033[0m\n");
-    printf("\t\033[1;37m---------------------------------------------------\033[0m\n");
-    printf("\t\033[1;37m| %-25s | %-19s |\033[0m\n", "Faixa de IMC", "Classificação");
-    printf("\t\033[1;37m|-------------------------------------------------|\033[0m\n");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;33m%-19s\033[0m |\n", "Abaixo de 20.7", "Abaixo do peso");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;32m%-19s\033[0m |\n", "20.7 - 26.4", "Peso normal");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;33m%-19s\033[0m |\n", "26.4 - 27.8", "Acima");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;33m%-19s\033[0m |\n", "27.8 - 31.1", "Acima do peso ideal");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;31m%-19s\033[0m |\n", "Acima de 31.1", "Obeso");
-    printf("\t\033[1;37m---------------------------------------------------\033[0m\n");
-    
-    // Tabela para mulheres
-    printf("\n\t\033[1;35mCLASSIFICAÇÃO PARA MULHERES\033[0m\n");
-    printf("\t\033[1;37m---------------------------------------------------\033[0m\n");
-    printf("\t\033[1;37m| %-25s | %-19s |\033[0m\n", "Faixa de IMC", "Classificação");
-    printf("\t\033[1;37m|-------------------------------------------------|\033[0m\n");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;33m%-19s\033[0m |\n", "Abaixo de 19.1", "Abaixo do peso");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;32m%-19s\033[0m |\n", "19.1 - 25.8", "Peso normal");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;33m%-19s\033[0m |\n", "25.8 - 27.3", "Acima ");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;33m%-19s\033[0m |\n", "27.3 - 32.3", "Acima do peso ideal");
-    printf("\t| \033[1;36m%-25s\033[0m | \033[1;31m%-19s\033[0m |\n", "Acima de 32.3", "Obeso");
-    printf("\t\033[1;37m---------------------------------------------------\033[0m\n\n");
-}
+// Implementação das funções
 
 void configuracoes() {
     #ifdef _WIN32
@@ -269,35 +126,275 @@ void configuracoes() {
 	
 }
 
-int main() {
-    configuracoes();
-    
-    int opcao;
-    do {
+void inicializarCores() {
+    // Aloca e inicializa todas as cores
+    cor.reset = "\033[0m";
+    cor.preto = "\033[30m";
+    cor.branco = "\033[37m";
+    cor.vermelho = "\033[31m";
+    cor.verde = "\033[32m";
+    cor.amarelo = "\033[33m";
+    cor.azul = "\033[34m";
+    cor.fundo_preto = "\033[40m";
+    cor.fundo_branco = "\033[47m";
+    cor.fundo_vermelho = "\033[41m";
+    cor.fundo_verde = "\033[42m";
+    cor.fundo_amarelo = "\033[43m";
+}
 
-        mostrarMenu();
-        scanf("%d", &opcao);
-        limparBuffer();
-        
-        system("cls");
-        switch(opcao) {
-            case 1:
-            	imprimirTabelaIMC();
-                cadastrarCliente();
-                break;
-            case 2:
-                listarHistorico();
-                break;
-            case 3:
-                salvarHistorico();
-                break;
-            case 4:
-                printf("Saindo...\n");
-                break;
-            default:
-                printf("Opção inválida!\n");
-        }
-    } while (opcao != 4);
+void liberarCores() {
+    // Não é necessário liberar memória pois usamos strings literais
+}
+
+void imprimirColorido(const char* cor_, const char* formato, ...) {
+    va_list args;
+    va_start(args, formato);
     
-    return 0;
+    printf("%s", cor_);
+    vprintf(formato, args);
+    printf("%s", cor.reset);
+    
+    va_end(args);
+}
+
+void limparBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+float lerFloatPositivo(const char* mensagem) {
+    float valor;
+    do {
+        printf("%s", mensagem);
+        scanf("%f", &valor);
+        limparBuffer();
+        if (valor <= 0) {
+            imprimirColorido(cor.vermelho, "Valor inválido! Digite um número positivo.\n");
+        }
+    } while (valor <= 0);
+    return valor;
+}
+
+void calcularIMC(Cliente *cliente) {
+    cliente->imc = cliente->peso / (cliente->altura * cliente->altura);
+    
+    if (cliente->sexo == 'M' || cliente->sexo == 'm') {
+        if (cliente->imc < 20.7) strcpy(cliente->classificacao, "Abaixo do peso");
+        else if (cliente->imc < 26.4) strcpy(cliente->classificacao, "Peso normal");
+        else if (cliente->imc < 27.8) strcpy(cliente->classificacao, "Marginalmente acima");
+        else if (cliente->imc < 31.1) strcpy(cliente->classificacao, "Acima do peso ideal");
+        else strcpy(cliente->classificacao, "Obeso");
+    } else {
+        if (cliente->imc < 19.1) strcpy(cliente->classificacao, "Abaixo do peso");
+        else if (cliente->imc < 25.8) strcpy(cliente->classificacao, "Peso normal");
+        else if (cliente->imc < 27.3) strcpy(cliente->classificacao, "Marginalmente acima");
+        else if (cliente->imc < 32.3) strcpy(cliente->classificacao, "Acima do peso ideal");
+        else strcpy(cliente->classificacao, "Obeso");
+    }
+}
+
+void cadastrarCliente() {
+    if (totalClientes >= MAX_CLIENTES) {
+        imprimirColorido(cor.vermelho, "Limite de clientes atingido!\n");
+        return;
+    }
+    
+    Cliente novo;
+    
+    imprimirColorido(cor.azul, "\n--- Cadastro de Cliente ---\n");
+    
+    printf("Nome: ");
+    fgets(novo.nome, 50, stdin);
+    novo.nome[strcspn(novo.nome, "\n")] = 0;
+    
+    do {
+        printf("Sexo (M/F): ");
+        scanf(" %c", &novo.sexo);
+        limparBuffer();
+        novo.sexo = toupper(novo.sexo);
+        if (novo.sexo != 'M' && novo.sexo != 'F') {
+            imprimirColorido(cor.vermelho, "Sexo inválido! Digite M ou F.\n");
+        }
+    } while (novo.sexo != 'M' && novo.sexo != 'F');
+    
+    novo.peso = lerFloatPositivo("Peso (kg): ");
+    novo.altura = lerFloatPositivo("Altura (m): ");
+    
+    calcularIMC(&novo);
+    
+    clientes[totalClientes++] = novo;
+    
+    system("cls");
+    
+    
+    imprimirColorido(cor.amarelo, " Dados do Cliente:\n");
+    imprimirColorido(cor.azul, "  Nome: %s\n", novo.nome);
+    imprimirColorido(cor.azul, "  Sexo: %c\n", novo.sexo);
+    imprimirColorido(cor.azul, "  Peso: %.2f\n", novo.peso);
+    imprimirColorido(cor.azul, "  Altura: %.2f\n", novo.altura);
+    imprimirColorido(cor.verde, "\n IMC calculado: %.2f - %s\n", novo.imc, novo.classificacao);
+    printf("\n");
+    
+    if (novo.sexo == MASCULINO) {
+		imprimirTabelaIMC_Homem();
+	}
+	
+	if (novo.sexo == FEMININO) {
+		imprimirTabelaIMC_Mulher();
+	}
+    
+    printf("\n\n\t");
+    salvarDados();
+}
+
+void listarClientes() {
+    if (totalClientes == 0) {
+        imprimirColorido(cor.amarelo, "\nNenhum cliente cadastrado!\n");
+        return;
+    }
+    
+    imprimirColorido(cor.azul, "\n--- Lista de Clientes ---\n");
+    
+    // Cabeçalho da tabela com fundo branco e texto preto
+    printf("%s%s", cor.fundo_amarelo, cor.preto);
+    printf("%-30s %-5s %-8s %-8s %-8s %-25s\n%-89s\n", 
+           "Nome", "Sexo", "Peso", "Altura", "IMC", "Classificação", " ");
+    printf("%s", cor.reset);
+    
+    for (int i = 0; i < totalClientes; i++) {
+        // Alterna cores para melhor legibilidade
+        const char* corLinha = (i % 2 == 0) ? cor.fundo_branco : cor.fundo_preto;
+        printf("%s%s", corLinha, (i % 2 == 0) ? cor.preto : cor.branco);
+        
+        printf("%-30s %-5c %-8.2f %-8.2f %-8.2f %-25s\n", 
+               clientes[i].nome, 
+               clientes[i].sexo, 
+               clientes[i].peso, 
+               clientes[i].altura, 
+               clientes[i].imc, 
+               clientes[i].classificacao);
+        
+        printf("%s", cor.reset);
+    }
+}
+
+void pesquisarCliente() {
+    if (totalClientes == 0) {
+        imprimirColorido(cor.amarelo, "\nNenhum cliente cadastrado para pesquisar!\n");
+        return;
+    }
+
+    char termo[50];
+    printf("\nDigite o nome ou parte do nome para pesquisar: ");
+    fgets(termo, 50, stdin);
+    termo[strcspn(termo, "\n")] = 0;
+
+    imprimirColorido(cor.azul, "\n--- Resultados da Pesquisa ---\n");
+    
+    // Cabeçalho da tabela
+    printf("%s%s", cor.fundo_branco, cor.preto);
+    printf("%-30s %-5s %-8s %-8s %-8s %-25s\n", 
+           "Nome", "Sexo", "Peso", "Altura", "IMC", "Classificação");
+    printf("%s", cor.reset);
+
+    int encontrados = 0;
+    for (int i = 0; i < totalClientes; i++) {
+        if (strstr(clientes[i].nome, termo) != NULL) {
+            const char* corLinha = (encontrados % 2 == 0) ? cor.fundo_branco : cor.fundo_preto;
+            printf("%s%s", corLinha, cor.preto);
+            
+            printf("%-30s %-5c %-8.2f %-8.2f %-8.2f %-25s\n", 
+                   clientes[i].nome, 
+                   clientes[i].sexo, 
+                   clientes[i].peso, 
+                   clientes[i].altura, 
+                   clientes[i].imc, 
+                   clientes[i].classificacao);
+            
+            printf("%s", cor.reset);
+            encontrados++;
+        }
+    }
+
+    if (encontrados == 0) {
+        imprimirColorido(cor.vermelho, "\nNenhum cliente encontrado com o termo: %s\n", termo);
+    } else {
+        imprimirColorido(cor.verde, "\nTotal encontrado: %d\n", encontrados);
+    }
+}
+
+void salvarDados() {
+    FILE *arquivo = fopen(ARQUIVO_DADOS, "wb");
+    if (arquivo == NULL) {
+        imprimirColorido(cor.vermelho, "Erro ao abrir arquivo para salvar!\n");
+        return;
+    }
+    
+    fwrite(&totalClientes, sizeof(int), 1, arquivo);
+    fwrite(clientes, sizeof(Cliente), totalClientes, arquivo);
+    
+    fclose(arquivo);
+    imprimirColorido(cor.verde, "Dados salvos com sucesso!\n");
+}
+
+void carregarDados() {
+    FILE *arquivo = fopen(ARQUIVO_DADOS, "rb");
+    if (arquivo == NULL) {
+        return; // Arquivo não existe ainda
+    }
+    
+    fread(&totalClientes, sizeof(int), 1, arquivo);
+    fread(clientes, sizeof(Cliente), totalClientes, arquivo);
+    
+    fclose(arquivo);
+}
+
+void mostrarMenu() {
+    imprimirColorido(cor.azul, "\n=== CALCULADORA DE IMC ===\n");
+    printf("1. Calcular IMC\n");
+    printf("2. Listar clientes\n");
+    printf("3. Pesquisar cliente\n");
+    //printf("4. Salvar dados\n");
+    printf("5. Sair\n");
+    imprimirColorido(cor.amarelo, "Escolha uma opção: ");
+}
+
+void imprimirTabelaIMC() {
+    // Título
+    printf("%s%s", cor.fundo_preto, cor.azul);
+    printf("\n=== TABELA DE CLASSIFICAÇÃO IMC ===\n");
+    printf("%s", cor.reset);
+    
+    imprimirTabelaIMC_Homem();
+    
+    imprimirTabelaIMC_Mulher();
+    
+}
+
+void imprimirTabelaIMC_Homem() {
+	// Tabela para homens
+    printf("\n%s%sCLASSIFICAÇÃO PARA HOMENS%s\n", cor.fundo_amarelo, cor.preto, cor.reset);
+    printf("%s%s---------------------------------------------------%s\n", cor.fundo_branco, cor.preto, cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_branco, cor.preto, "Faixa de IMC", "Classificação", cor.reset);
+    printf("%s%s|-------------------------------------------------|%s\n", cor.fundo_branco, cor.preto, cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_branco, cor.preto, "Abaixo de 20.7", "Abaixo do peso", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_verde, cor.branco, "20.7 - 26.4", "Peso normal", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_amarelo, cor.preto, "26.4 - 27.8", "Marginalmente acima", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_vermelho, cor.branco, "27.8 - 31.1", "Acima do peso ideal", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_preto, cor.vermelho, "Acima de 31.1", "Obeso", cor.reset);
+    printf("%s%s---------------------------------------------------%s\n", cor.fundo_branco, cor.preto, cor.reset);
+}
+
+void imprimirTabelaIMC_Mulher() {
+	// Tabela para mulheres
+    printf("\n%s%sCLASSIFICAÇÃO PARA MULHERES%s\n", cor.fundo_amarelo, cor.preto, cor.reset);
+    printf("%s%s---------------------------------------------------%s\n", cor.fundo_branco, cor.preto, cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_branco, cor.preto, "Faixa de IMC", "Classificação", cor.reset);
+    printf("%s%s|-------------------------------------------------|%s\n", cor.fundo_branco, cor.preto, cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_branco, cor.preto, "Abaixo de 19.1", "Abaixo do peso", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_verde, cor.branco, "19.1 - 25.8", "Peso normal", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_amarelo, cor.preto, "25.8 - 27.3", "Marginalmente acima", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_vermelho, cor.branco, "27.3 - 32.3", "Acima do peso ideal", cor.reset);
+    printf("%s%s| %-25s | %-19s |%s\n", cor.fundo_preto, cor.vermelho, "Acima de 32.3", "Obeso", cor.reset);
+    printf("%s%s---------------------------------------------------%s\n\n", cor.fundo_branco, cor.preto, cor.reset);
 }
