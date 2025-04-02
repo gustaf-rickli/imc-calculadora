@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Layout>
+	<Files>
+		<File Name="main.cpp" Top="Yes" Tabpos="1" TopLine="51">
+			<Cursor Line="80" Column="2"/>
+		</File>
+		<File Name="validar_entradas.h" Top="No" Tabpos="2" TopLine="1">
+			<Cursor Line="6" Column="1"/>
+			<Selection Line="6" Column="20"/>
+		</File>
+		<File Name="imprimir_menu.h" Top="No" Tabpos="3" TopLine="1">
+			<Cursor Line="25" Column="25"/>
+			<Selection Line="11" Column="2"/>
+		</File>
+	</Files>
+</Layout>

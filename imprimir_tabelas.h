@@ -1,10 +1,14 @@
+#include <iostream>
+#include <iomanip> 
+#include <locale.h>
+#include <windows.h>
+
 
 using namespace std;
 
-//PREDEFINI√á√ÉO
+//PREDEFINI«√O
 #define RESET   "\033[0m"
-
-//TEXTO INVIS√çVEL
+//TEXTO INVISÕVEL
 #define INV  "\033[8m"       
 
 //DESTAQUE FORTE
@@ -14,25 +18,21 @@ using namespace std;
 #define SDEST "\033[22m"
 
 //COR DOS TITULOS 1
-#define COR_T "\033[97m"
-
-//COR DO ESPA√áAMENTO
-#define CORP "\033[38;5;0m" 
-#define COREP "\033[30;5;40m" 
+#define COR_T "\033[37m"
 
 //COR PESO
 #define COR_E_P "\033[44m"
-#define COR_P "\033[21m"
+#define COR_P "\033[37m"
 #define PDEST  "\033[1m"
 
 //COR ALTURA
 #define COR_E_A "\033[104m"
-#define COR_A "\033[97m"
+#define COR_A "\033[37m"
 #define ADEST  "\033[1m"
 
 
 //COR LINHA TABELA (reduzida) 1 
-#define COR_L "\033[97m"
+#define COR_L "\033[37m"
 #define COR_E_L "\033[40m"
 #define DESTL  "\033[1m"
 
@@ -43,7 +43,7 @@ using namespace std;
 #define COR_3 "\033[37m"
 #define COR_4 "\033[37m"
 #define COR_5 "\033[37m"
-#define COR_6 "\033[38;5;0m" 
+#define COR_6 "\033[30m"
 #define COR_7 "\033[31m"
 
 
@@ -65,9 +65,10 @@ using namespace std;
 #define COR_E_6 "\033[41m"    // vermelho
 #define COR_E_7 "\033[40m"    // preto 
 
+
 void imprimirTabelaIMC() {
-    const int alturas = 11; // N√∫mero de colunas (alturas)
-    const int pesos = 19;   // N√∫mero de linhas (pesos)
+    const int alturas = 11; // N˙mero de colunas (alturas)
+    const int pesos = 19;   // N˙mero de linhas (pesos)
 
     double valoresIMC[pesos][alturas] = {
         {22.22, 20.81, 19.53, 18.37, 17.30, 16.33, 15.43, 14.61, 13.85, 13.15, 12.50},  // 50kg
@@ -76,7 +77,7 @@ void imprimirTabelaIMC() {
         {28.89, 27.06, 25.39, 23.88, 22.49, 21.22, 20.06, 18.99, 18.01, 17.09, 16.25},  // 65kg
         {31.11, 29.14, 27.34, 25.71, 24.22, 22.86, 21.60, 20.45, 19.39, 18.41, 17.50},  // 70kg
         {33.33, 31.22, 29.30, 27.55, 25.95, 24.49, 23.15, 21.91, 20.78, 19.72, 18.75},  // 75kg
-        {35.56, 33.30, 31.24, 29.38, 27.68, 26.12, 24.69, 23.37, 22.16, 21.04, 20.00},  // 80kg
+        {35.56, 33.30, 31.25, 29.38, 27.68, 26.12, 24.69, 23.37, 22.16, 21.04, 20.00},  // 80kg
         {37.78, 35.38, 33.20, 31.22, 29.41, 27.76, 26.23, 24.84, 23.55, 22.35, 21.25},  // 85kg
         {40.00, 37.46, 35.16, 33.06, 31.14, 29.39, 27.78, 26.30, 24.93, 23.67, 22.50},  // 90kg
         {42.22, 39.54, 37.11, 34.89, 32.87, 31.02, 29.32, 27.76, 26.32, 24.98, 23.75},  // 95kg
@@ -85,152 +86,134 @@ void imprimirTabelaIMC() {
         {48.89, 45.79, 42.97, 40.40, 38.06, 35.92, 33.95, 32.14, 30.47, 28.93, 27.50},  // 110kg
         {51.11, 47.87, 44.92, 42.24, 39.79, 37.55, 35.49, 33.60, 31.86, 30.24, 28.75},	// 115kg
         {53.33, 49.95, 46.88, 44.08, 41.52, 39.18, 37.04, 35.06, 33.24, 31.56, 30.00},  // 120kg
-	{55.56, 52.03, 48.83, 45.91, 43.25, 40.82, 38.58, 36.52, 34.63, 32.87, 31.25},  // 125kg
+		{55.56, 52.03, 48.83, 45.91, 43.25, 40.82, 38.58, 36.52, 34.63, 32.87, 31.25},  // 125kg
     	{57.78, 54.11, 50.78, 47.75, 44.98, 42.45, 40.12, 37.98, 36.01, 34.19, 32.50},  // 130kg
     	{60.00, 56.19, 52.73, 49.59, 46.71, 44.08, 41.67, 39.44, 37.40, 35.50, 33.75},  // 135kg
-	{62.22, 58.27, 54.69, 51.42, 48.44, 45.71, 43.21, 40.91, 38.78, 36.82, 35.00},  // 140kg
+		{62.22, 58.27, 54.69, 51.42, 48.44, 45.71, 43.21, 40.91, 38.78, 36.82, 35.00},  // 140kg
         	 	 	 	 	 
     };
 
     double pesosList[] = { 50, 55, 60, 65, 70, 75, 80, 85,  90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140};
-	
     double alturasList[] = {1.50, 1.55, 1.60, 1.65, 1.70, 1.75, 1.80, 1.85, 1.90, 1.95, 2.00};
 
     cout << setw(16) << COR_E_A << ADEST << COR_A << "Altura(m)" << RESET 
-    << COR_T << DEST << setw(54) <<"Tabela do IMC (Estendida)" << endl << endl; // tabela extendida
+	<< COR_T << DEST << setw(54) <<"Tabela do IMC (Estendida)" << endl << endl; // tabela extendida
     cout << RESET << COR_E_P << PDEST << COR_P << " Peso(kg)" << RESET << " " << RESET;
-	
     for (int i = 0; i < alturas; i++) {
-    		if(alturasList[i] >= 1.50 && alturasList[i] <= 1.9 && alturasList[i] != 1.55 && alturasList[i] != 1.65 && alturasList[i] != 1.75 && alturasList[i] != 1.85){
-      		cout << RESET << COR_E_A << ADEST << COR_A << setw(4) << "" << alturasList[i] << "0m" << RESET << " ";
+    	if(alturasList[i] >= 1.50 && alturasList[i] <= 1.9 && alturasList[i] != 1.55 && alturasList[i] != 1.65 && alturasList[i] != 1.75 && alturasList[i] != 1.85){
+        cout << RESET << COR_E_A << ADEST << COR_A << setw(4) << "" << alturasList[i] << "0m" << RESET << " ";
 		}
-    		if(alturasList[i] >= 1.55 && alturasList[i] <= 1.95 && alturasList[i] != 1.6 && alturasList[i] != 1.85 && alturasList[i] != 1.7 && alturasList[i] != 1.8 && alturasList[i] != 1.9){
-        	cout << RESET << COR_E_A << ADEST << COR_A << setw(4) << ""  << alturasList[i] << "m" << RESET << " ";
+		
+    	if(alturasList[i] >= 1.55 && alturasList[i] <= 1.95 && alturasList[i] != 1.6 && alturasList[i] != 1.85 && alturasList[i] != 1.7 && alturasList[i] != 1.8 && alturasList[i] != 1.9){
+        cout << RESET << COR_E_A << ADEST << COR_A << setw(4) << ""  << alturasList[i] << "m" << RESET << " ";
 		}
+		
 		if (alturasList[i] == 1.85){
 		cout << RESET << COR_E_A << ADEST << COR_A << setw(4) << ""  << alturasList[i] << "m" << RESET << " ";	
 		}
+		
   		else  if(alturasList[i] == 2 ){
-		cout << RESET << COR_E_A << ADEST << COR_A << setw(4) << ""  << alturasList[i] << ".00m" << RESET << CORP << COREP << "'\n";
+		cout << RESET << COR_E_A << ADEST << COR_A << setw(4) << ""  << alturasList[i] << ".00m" << RESET << " ";
 		}
     }
     cout << endl;
 
        for (int i = 0; i < pesos; i++) {
-       		   if(pesosList[i] <= 50){
-		   cout << RESET << COR_E_P << PDEST << COR_P << setw(7) << endl 
-		   << setw(4)<< pesosList[i] << ".00kg" << COREP << CORP".";
+       	if(pesosList[i] <= 50){
+			   cout << RESET << COR_E_P << PDEST << COR_P << setw(7) 
+			   << endl << setw(4)<< pesosList[i] << ".00kg" << RESET << " ";
 		   }
 		   
-		   if(pesosList[i] >= 55 && pesosList[i] <=95 ){
-		   cout << RESET << COR_E_P << PDEST << COR_P << setw(7) << endl 
-		   << setw(7)<< pesosList[i] << "kg" << COREP << CORP ".";
+		if(pesosList[i] >= 55 && pesosList[i] <=95 ){
+			   cout << RESET << COR_E_P << PDEST << COR_P << setw(7) 
+			   << endl << setw(7)<< pesosList[i] << "kg" << RESET << " ";
 		   }
 		   
-        	   else if (pesosList[i] >= 100){
-   	           cout << RESET << COR_E_P << PDEST << COR_P << setw(7) << endl 
-		   << pesosList[i] << "kg" << RESET << COREP << CORP << "." << RESET;
-		   }
-        	   
-       }
+        else if (pesosList[i] >= 100)
+   	           cout << RESET << COR_E_P << PDEST << COR_P << setw(7) 
+		  << endl << pesosList[i] << "kg" << RESET << " " << RESET;
 
 		  
         for (int j = 0; j < alturas; j++) {
             double imc = valoresIMC[i][j];
 		
-            if (imc >= 12.50 && imc <= 17) {
+            if (imc >= 12.50 && imc <= 16) {
                 cout << COR_E_1 << DEST1 << COR_1 << setw(9) 
-		<< fixed << setprecision(2) << imc << COREP << CORP "'" ;
-                
+				<< fixed << setprecision(2) << imc << RESET << " " << RESET;
             }
-            	
-            if (imc >= 17.01 && imc <= 18.49) {
+            
+            if (imc >= 16.01 && imc <= 18.4) {
                 cout << COR_E_2 << DEST2 << COR_2 << setw(9) 
-		<< fixed << setprecision(2) << imc << COREP << CORP "'"  ;
-					  
+				<< fixed << setprecision(2) << imc << RESET << " " << RESET;
             }
             
-            if (imc >= 18.5 && imc <= 24.9) {
+            if (imc >= 18.41 && imc <= 23.9) {
                 cout << COR_E_3 << DEST3 << COR_3 << setw(9) 
-		<< fixed << setprecision(2) << imc << COREP << CORP "'" ;
+				<< fixed << setprecision(2) << imc << RESET << " " << RESET;
             }
             
-            if (imc >= 24.91 && imc <= 29.91) {
+            if (imc >= 23.91 && imc <= 28.9) {
                 cout << COR_E_4 << DEST4 << COR_4 << setw(9) 
-		<< fixed << setprecision(2) << imc << COREP << CORP "'" ;
+				<< fixed << setprecision(2) << imc << RESET << " " << RESET;
             }
             
-            if (imc >= 30 && imc <= 34.9) {
+            if (imc >= 28.91 && imc <= 34.9) {
                 cout << COR_E_5 << DEST5 << COR_5 << setw(4) 
-		<< fixed << setprecision(2) << "I " << imc << COREP << CORP "'" ;
+				<< fixed << setprecision(2) << "I " << imc << RESET << " " << RESET;
             }
             
-            if (imc >= 34.91 && imc <= 39.99) {
+            if (imc >= 34.91 && imc <= 39.9) {
                 cout << COR_E_6 << DEST6 << COR_6 << setw(4) 
-		<< fixed << setprecision(2) << "II " << imc << COREP << CORP << "'" ;
+				<< fixed << setprecision(2) << "II " << imc << RESET << " " << RESET;
             }
-            if (imc >= 40 && imc <= 62.22) {
+            if (imc >= 39.91 && imc <= 62.22) {
                 cout << COR_E_7 << DEST7 << COR_7 << setw(3) 
-		<< fixed << setprecision(2) << "III " << imc << COREP << CORP "'";
+				<< fixed << setprecision(2) << "III " << imc << RESET << " " << RESET;
             }
             
-			if (imc == 12.5 || imc == 13.75 || imc == 15 || imc == 16.25){
-            cout << endl; 	 	 	 	
-			}
-            if ( imc == 17.5 || imc == 18.75 ||  imc == 20){
-            cout << endl;
-			}
-			if (imc == 21.25 || imc == 22.50 || imc == 23.75 || imc == 25.00){
-            cout << endl;	 	 		
-			}
-			if (imc == 26.25 || imc == 27.50 || imc == 28.75 || imc == 30){
-            cout << endl;
-			}
-			if (imc == 31.25 || imc == 32.5 || imc == 33.75 || imc == 35){
-				cout << endl;
-			}						 	 	 
-        }enableANSI();
+        }
         cout << endl;
     }
 }
 
 void imprimirLegendaIMC() {
-    cout << DEST << COR_T << endl << setw(72) << "Tabela do IMC (Reduzida)\n" << RESET // tamanho reduzida
+    cout << DEST << endl << setw(72) << "Tabela do IMC (Reduzida)\n" << RESET // tamanho reduzida
 
 << setw(80) << "|---------------------------------------|\n"  
-	<< setw(43) << COR_L << "|" << RESET 
-	<< COR_E_1 << COR_1 << "IMC < 17 -> Muito abaixo do peso" 
+	<< setw(43) << COR_L << "|" << RESET << COR_E_1 
+	<< "IMC < 16 -> Muito abaixo do peso" 
 	<< setw(12) << COR_L << COR_E_L << "|" << RESET <<"\n" << RESET
 
 << setw(80) << "|---------------------------------------|\n"
-	<< setw(43) << COR_L << "|" << RESET 
-	<< COR_E_2 << COR_2 << "17 - 18.49 -> Abaixo do peso" 
+	<< setw(43) << COR_L << "|" << RESET << COR_E_2 
+	<< "16 - 18.49 -> Abaixo do peso" 
 	<< setw(16) << COR_L << COR_E_L << "|" << RESET <<"\n" << RESET
 
 << setw(80) << "|---------------------------------------|\n"    
-	<< setw(43) << COR_L << "|" << RESET 
-	<< COR_E_3 << COR_3 << "18.5 - 24.99 -> Peso normal" 
+	<< setw(43) << COR_L << "|" << RESET << COR_E_3 
+	<< "18.5 - 23.99 -> Peso normal" 
 	<< setw(17) << COR_L << COR_E_L << "|" << RESET  <<"\n" << RESET
 
 << setw(80) << "|---------------------------------------|\n"    
-	<< setw(43) << COR_L << "|" << RESET 
-	<< COR_E_4 << COR_4 << "25 - 29.99 -> Acima do peso" 
+	<< setw(43) << COR_L << "|" << RESET << COR_E_4 
+	<<"24 - 28.99 -> Acima do peso" 
 	<< setw(17) << COR_L  << COR_E_L << "|" << RESET <<"\n" << RESET
 
 << setw(80) << "|---------------------------------------|\n"
-	<< setw(43) << COR_L << "|" << RESET 
-	<< COR_E_5 << COR_5 << "30 - 34.99 -> Obesidade I" 
+	<< setw(43) << COR_L << "|" << RESET << COR_E_5 
+	<< "29 - 34.99 -> Obesidade I" 
 	<< setw(19) << COR_L << COR_E_L << "|" << RESET <<"\n" << RESET
 
 << setw(80) << "|---------------------------------------|\n"
-	<< setw(43) << COR_L << "|" << RESET 
-	<< COR_E_6 << COR_6 << "35 - 39.99 -> Obesidade II (severa)" 
+	<< setw(43) << COR_L << "|" << RESET << COR_E_6 
+	<< COR_6 <<"35 - 39.99 -> Obesidade II (severa)" 
 	<< setw(9) << COR_L << COR_E_L << "|" << RESET <<"\n" << RESET
 
 << setw(80) << "|---------------------------------------|\n"
-	<< setw(43) << COR_L << "|" << RESET 
-	<< COR_E_7 << COR_7 << ">= 40 -> Obesidade III (m√≥rbida)" 
+	<< setw(43) << COR_L << "|" << RESET << COR_E_7 
+	<< COR_7 <<">= 40 -> Obesidade III (mÛrbida)" 
     << setw(12) << COR_L << "|" << RESET <<"\n" << RESET
 
 << setw(80) << "|---------------------------------------|\n";
 }
+
