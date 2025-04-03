@@ -1,96 +1,96 @@
-/* ========== [INCLUS√O DE BIBLIOTECAS] ========== */
-#include <stdio.h>      // Biblioteca padr„o de entrada/saÌda (printf, scanf, fgets, etc.)
-#include <string.h>     // FunÁıes para manipulaÁ„o de strings (strcpy, strcmp, strlen)
-#include <ctype.h>      // FunÁıes para manipulaÁ„o de caracteres (toupper, isdigit)
-#include <stdlib.h>     // FunÁıes gerais (system, exit, malloc)
-#include <locale.h>     // ConfiguraÁ„o de localidade (setlocale para caracteres especiais)
-#include <stdarg.h>     // ManipulaÁ„o de argumentos vari·veis (para funÁıes como printf)
-#include <windows.h>    // API do Windows (para configuraÁıes do console)
+/* ========== [INCLUS√ÉO DE BIBLIOTECAS] ========== */
+#include <stdio.h>      // Biblioteca padr√£o de entrada/sa√≠da (printf, scanf, fgets, etc.)
+#include <string.h>     // Fun√ß√µes para manipula√ß√£o de strings (strcpy, strcmp, strlen)
+#include <ctype.h>      // Fun√ß√µes para manipula√ß√£o de caracteres (toupper, isdigit)
+#include <stdlib.h>     // Fun√ß√µes gerais (system, exit, malloc)
+#include <locale.h>     // Configura√ß√£o de localidade (setlocale para caracteres especiais)
+#include <stdarg.h>     // Manipula√ß√£o de argumentos vari√°veis (para fun√ß√µes como printf)
+#include <windows.h>    // API do Windows (para configura√ß√µes do console)
 #include <math.h>
 
-/* ========== [DEFINI«’ES DE CONSTANTES] ========== */
-#define MAX_CLIENTES 100               // N˙mero m·ximo de clientes que o sistema suporta
-#define ARQUIVO_DADOS "clientes_imc.dat" // Nome do arquivo bin·rio para salvar os dados
+/* ========== [DEFINI√á√ïES DE CONSTANTES] ========== */
+#define MAX_CLIENTES 100               // N√∫mero m√°ximo de clientes que o sistema suporta
+#define ARQUIVO_DADOS "clientes_imc.dat" // Nome do arquivo bin√°rio para salvar os dados
 #define MASCULINO 'M'                  // Constante para sexo masculino
 #define FEMININO 'F'                   // Constante para sexo feminino
 
 /* ========== [ESTRUTURAS DE DADOS] ========== */
-// Estrutura para armazenar cÛdigos de cores ANSI
+// Estrutura para armazenar c√≥digos de cores ANSI
 typedef struct {
-    const char* reset;       // CÛdigo para resetar formataÁ„o (\033[0m)
-    const char* preto;       // CÛdigo para texto preto (\033[30m)
-    const char* branco;      // CÛdigo para texto branco (\033[97m)
-    const char* vermelho;    // CÛdigo para texto vermelho (\033[31m)
-    const char* verde;       // CÛdigo para texto verde (\033[32m)
-    const char* amarelo;     // CÛdigo para texto amarelo (\033[33m)
-    const char* azul;        // CÛdigo para texto azul (\033[94m)
-    const char* laranja;     // CÛdigo para texto laranja (\033[38;2;255;165;0m)
-    const char* fundo_preto; // CÛdigo para fundo preto (\033[40m)
-    const char* fundo_branco;// CÛdigo para fundo branco (\033[47m)
-    const char* fundo_vermelho; // CÛdigo para fundo vermelho (\033[41m)
-    const char* fundo_verde; // CÛdigo para fundo verde (\033[42m)
-    const char* fundo_amarelo; // CÛdigo para fundo amarelo (\033[43m)
+    const char* reset;       	// C√≥digo para resetar formata√ß√£o (\033[0m)
+    const char* preto;       	// C√≥digo para texto preto (\033[30m)
+    const char* branco;      	// C√≥digo para texto branco (\033[97m)
+    const char* vermelho;    	// C√≥digo para texto vermelho (\033[31m)
+    const char* verde;       	// C√≥digo para texto verde (\033[32m)
+    const char* amarelo;     	// C√≥digo para texto amarelo (\033[33m)
+    const char* azul;        	// C√≥digo para texto azul (\033[94m)
+    const char* laranja;     	// C√≥digo para texto laranja (\033[38;2;255;165;0m)
+    const char* fundo_preto;    // C√≥digo para fundo preto (\033[40m)
+    const char* fundo_branco;   // C√≥digo para fundo branco (\033[47m)
+    const char* fundo_vermelho; // C√≥digo para fundo vermelho (\033[41m)
+    const char* fundo_verde;    // C√≥digo para fundo verde (\033[42m)
+    const char* fundo_amarelo; 	// C√≥digo para fundo amarelo (\033[43m)
 } ConsoleCores;
 
 // Estrutura para armazenar dados de um cliente
 typedef struct {
-    char nome[50];          // String para armazenar o nome do cliente (m·x 50 caracteres)
+    char nome[50];          // String para armazenar o nome do cliente (m√°x 50 caracteres)
     char sexo;              // Char para armazenar o sexo ('M' ou 'F')
     float peso;             // Float para armazenar o peso em kg
     float altura;           // Float para armazenar a altura em metros
     float imc;              // Float para armazenar o valor do IMC calculado
-    char classificacao[30]; // String para armazenar a classificaÁ„o do IMC
+    char classificacao[30]; // String para armazenar a classifica√ß√£o do IMC
 } Cliente;
 
-/* ========== [VARI¡VEIS GLOBAIS] ========== */
-Cliente clientes[MAX_CLIENTES];  // Array de estruturas Cliente para armazenar atÈ 100 clientes
-int totalClientes = 0;           // Inteiro para contar quantos clientes est„o cadastrados
-ConsoleCores cor;                // Vari·vel do tipo ConsoleCores para gerenciar cores
+/* ========== [VARI√ÅVEIS GLOBAIS] ========== */
+Cliente clientes[MAX_CLIENTES];  // Array de estruturas Cliente para armazenar at√© 100 clientes
+int totalClientes = 0;           // Inteiro para contar quantos clientes est√£o cadastrados
+ConsoleCores cor;                // Vari√°vel do tipo ConsoleCores para gerenciar cores
 
-/* ========== [PROT”TIPOS DE FUN«’ES] ========== */
-void inicializarCores();         // FunÁ„o para inicializar os cÛdigos de cores
-void liberarCores();             // FunÁ„o para "liberar" recursos (n„o faz nada atualmente)
-void imprimirColorido(const char* cor, const char* formato, ...); // FunÁ„o para imprimir texto colorido
-void limparBuffer();             // FunÁ„o para limpar o buffer de entrada
-float lerFloatPositivo(const char* mensagem); // FunÁ„o para ler um float positivo
-void calcularIMC(Cliente *cliente); // FunÁ„o para calcular IMC e classificaÁ„o
-void cadastrarCliente();         // FunÁ„o para cadastrar um novo cliente
-void listarClientes();           // FunÁ„o para listar todos os clientes
-void pesquisarCliente();         // FunÁ„o para pesquisar clientes por nome
-void salvarDados();              // FunÁ„o para salvar dados no arquivo bin·rio
-void carregarDados();            // FunÁ„o para carregar dados do arquivo bin·rio
-void mostrarMenu();              // FunÁ„o para exibir o menu principal
-void imprimirTabelaIMC();        // FunÁ„o para exibir a tabela de classificaÁ„o do IMC
-void configuracoes();            // FunÁ„o para configurar o console
-void imprimirTabelaIMC_Homem();  // FunÁ„o para exibir tabela de IMC para homens
-void imprimirTabelaIMC_Mulher(); // FunÁ„o para exibir tabela de IMC para mulheres
-float calcularPesoIdeal(float altura, char sexo); // FunÁ„o para calcular peso ideal
-void imprimir_ascii_art();       // FunÁ„o para exibir arte ASCII do tÌtulo
+/* ========== [PROT√ìTIPOS DE FUN√á√ïES] ========== */
+void inicializarCores();         // Fun√ß√£o para inicializar os c√≥digos de cores
+void liberarCores();             // Fun√ß√£o para "liberar" recursos (n√£o faz nada atualmente)
+void imprimirColorido(const char* cor, const char* formato, ...); // Fun√ß√£o para imprimir texto colorido
+void limparBuffer();             // Fun√ß√£o para limpar o buffer de entrada
+float lerFloatPositivo(const char* mensagem); // Fun√ß√£o para ler um float positivo
+void calcularIMC(Cliente *cliente); // Fun√ß√£o para calcular IMC e classifica√ß√£o
+void cadastrarCliente();         // Fun√ß√£o para cadastrar um novo cliente
+void listarClientes();           // Fun√ß√£o para listar todos os clientes
+void pesquisarCliente();         // Fun√ß√£o para pesquisar clientes por nome
+void salvarDados();              // Fun√ß√£o para salvar dados no arquivo bin√°rio
+void carregarDados();            // Fun√ß√£o para carregar dados do arquivo bin√°rio
+void mostrarMenu();              // Fun√ß√£o para exibir o menu principal
+void imprimirTabelaIMC();        // Fun√ß√£o para exibir a tabela de classifica√ß√£o do IMC
+void configuracoes();            // Fun√ß√£o para configurar o console
+void imprimirTabelaIMC_Homem();  // Fun√ß√£o para exibir tabela de IMC para homens
+void imprimirTabelaIMC_Mulher(); // Fun√ß√£o para exibir tabela de IMC para mulheres
+float calcularPesoIdeal(float altura, char sexo); // Fun√ß√£o para calcular peso ideal
+void imprimir_ascii_art();       // Fun√ß√£o para exibir arte ASCII do t√≠tulo
 
-/* ========== [FUN«√O PRINCIPAL] ========== */
+/* ========== [FUN√á√ÉO PRINCIPAL] ========== */
 int main() {
     configuracoes();       // Configura o console (cores, locale, etc.)
-    inicializarCores();    // Inicializa as cores disponÌveis
+    inicializarCores();    // Inicializa as cores dispon√≠veis
     carregarDados();       // Carrega clientes do arquivo, se existir
 
-    int opcao;             // Vari·vel para armazenar a opÁ„o do menu
+    int opcao;             // Vari√°vel para armazenar a op√ß√£o do menu
 
-    imprimir_ascii_art();  // Exibe a arte ASCII do tÌtulo
-    printf("\n\n\n");      // EspaÁamento
-    system("pause");       // Pausa para o usu·rio ver a arte
+    imprimir_ascii_art();  // Exibe a arte ASCII do t√≠tulo
+    printf("\n\n\n");      // Espa√ßamento
+    system("pause");       // Pausa para o usu√°rio ver a arte
     system("cls");         // Limpa a tela
 
     do {
-        mostrarMenu();     // Exibe o menu de opÁıes
-        scanf("%d", &opcao); // LÍ a opÁ„o do usu·rio
+        mostrarMenu();     // Exibe o menu de op√ß√µes
+        scanf("%d", &opcao); // L√™ a op√ß√£o do usu√°rio
         limparBuffer();    // Limpa o buffer do teclado
         
-        system("cls");     // Limpa a tela antes de mostrar a prÛxima tela
+        system("cls");     // Limpa a tela antes de mostrar a pr√≥xima tela
         
-        switch(opcao) {    // Executa a funÁ„o correspondente ‡ opÁ„o
+        switch(opcao) {    // Executa a fun√ß√£o correspondente √† op√ß√£o
             case 1:
                 imprimirTabelaIMC();  // Mostra a tabela de IMC
-                cadastrarCliente();    // Chama funÁ„o de cadastro
+                cadastrarCliente();    // Chama fun√ß√£o de cadastro
                 break;
             case 2:
                 listarClientes();     // Lista todos os clientes
@@ -99,49 +99,49 @@ int main() {
                 pesquisarCliente();    // Pesquisa cliente por nome
                 break;
             case 5:
-                imprimirColorido(cor.verde, "Saindo...\n"); // Mensagem de saÌda
+                imprimirColorido(cor.verde, "Saindo...\n"); // Mensagem de sa√≠da
                 break;
             default:
-                imprimirColorido(cor.vermelho, "OpÁ„o inv·lida!\n"); // Mensagem de erro
+                imprimirColorido(cor.vermelho, "Op√ß√£o inv√°lida!\n"); // Mensagem de erro
         }
-    } while (opcao != 5);  // Repete atÈ o usu·rio escolher sair (opÁ„o 5)
+    } while (opcao != 5);  // Repete at√© o usu√°rio escolher sair (op√ß√£o 5)
 
-    liberarCores();        // "Libera" recursos (n„o faz nada atualmente)
+    liberarCores();        // "Libera" recursos (n√£o faz nada atualmente)
     return 0;              // Retorna 0 indicando sucesso
 }
 
-/* ========== [IMPLEMENTA«√O DAS FUN«’ES] ========== */
+/* ========== [IMPLEMENTA√á√ÉO DAS FUN√á√ïES] ========== */
 
-// ConfiguraÁıes iniciais do console
+// Configura√ß√µes iniciais do console
 void configuracoes() {
     #ifdef _WIN32
-    // ObtÈm o handle para o console de saÌda padr„o
+    // Obt√©m o handle para o console de sa√≠da padr√£o
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     
-    // Verifica se o handle È v·lido
+    // Verifica se o handle √© v√°lido
     if (hOut == INVALID_HANDLE_VALUE) {
         return;
     }
     
-    // ObtÈm o modo atual do console
+    // Obt√©m o modo atual do console
     DWORD dwMode = 0;
     if (!GetConsoleMode(hOut, &dwMode)) {
         return;
     }
     
-    // Ativa o modo de terminal virtual (suporte a cÛdigos ANSI)
+    // Ativa o modo de terminal virtual (suporte a c√≥digos ANSI)
     dwMode |= 0x0004;
     if (!SetConsoleMode(hOut, dwMode)) {
         return;
     }
     #endif	
 	
-    setlocale(LC_ALL, "portuguese"); // Configura locale para portuguÍs	
+    setlocale(LC_ALL, "portuguese"); // Configura locale para portugu√™s	
 }
 
-// Inicializa os cÛdigos de cores ANSI na estrutura 'cor'
+// Inicializa os c√≥digos de cores ANSI na estrutura 'cor'
 void inicializarCores() {
-    cor.reset = "\033[0m";          // Resetar formataÁ„o
+    cor.reset = "\033[0m";          // Resetar formata√ß√£o
     cor.preto = "\033[30m";         // Texto preto
     cor.branco = "\033[97m";        // Texto branco
     cor.vermelho = "\033[31m";      // Texto vermelho
@@ -156,14 +156,14 @@ void inicializarCores() {
     cor.fundo_amarelo = "\033[43m"; // Fundo amarelo
 }
 
-// FunÁ„o vazia (placeholder para futura liberaÁ„o de recursos)
+// Fun√ß√£o vazia (placeholder para futura libera√ß√£o de recursos)
 void liberarCores() {
-    // N„o È necess·rio liberar memÛria pois usamos strings literais
+    // N√£o √© necess√°rio liberar mem√≥ria pois usamos strings literais
 }
 
-// FunÁ„o para imprimir texto colorido no console
+// Fun√ß√£o para imprimir texto colorido no console
 void imprimirColorido(const char* cor_, const char* formato, ...) {
-    va_list args;                  // Lista de argumentos vari·veis
+    va_list args;                  // Lista de argumentos vari√°veis
     va_start(args, formato);       // Inicializa a lista de argumentos
     
     printf("%s", cor_);            // Aplica a cor especificada
@@ -176,29 +176,29 @@ void imprimirColorido(const char* cor_, const char* formato, ...) {
 // Limpa o buffer de entrada para evitar problemas com scanf
 void limparBuffer() {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF); // LÍ todos os caracteres atÈ encontrar \n ou EOF
+    while ((c = getchar()) != '\n' && c != EOF); // L√™ todos os caracteres at√© encontrar \n ou EOF
 }
 
-// LÍ um n˙mero float positivo do usu·rio com validaÁ„o
+// L√™ um n√∫mero float positivo do usu√°rio com valida√ß√£o
 float lerFloatPositivo(const char* mensagem) {
     float valor;
     do {
-        printf("%s", mensagem);    // Exibe a mensagem passada como par‚metro
-        scanf("%f", &valor);       // LÍ o valor
+        printf("%s", mensagem);    // Exibe a mensagem passada como par√¢metro
+        scanf("%f", &valor);       // L√™ o valor
         limparBuffer();            // Limpa o buffer
-        if (valor <= 0) {          // Valida se È positivo
-            imprimirColorido(cor.vermelho, "Valor inv·lido! Digite um n˙mero positivo.\n");
+        if (valor <= 0) {          // Valida se √© positivo
+            imprimirColorido(cor.vermelho, "Valor inv√°lido! Digite um n√∫mero positivo.\n");
         }
-    } while (valor <= 0);          // Repete atÈ que um valor positivo seja digitado
-    return valor;                  // Retorna o valor v·lido
+    } while (valor <= 0);          // Repete at√© que um valor positivo seja digitado
+    return valor;                  // Retorna o valor v√°lido
 }
 
 // Calcula o IMC e classifica com base no sexo
 void calcularIMC(Cliente *cliente) {
-    // FÛrmula do IMC: peso / (altura^2)
+    // F√≥rmula do IMC: peso / (altura^2)
     cliente->imc = cliente->peso / (cliente->altura * cliente->altura);
     
-    // ClassificaÁ„o para homens
+    // Classifica√ß√£o para homens
     if (cliente->sexo == 'M' || cliente->sexo == 'm') {
         if (cliente->imc < 20.7) strcpy(cliente->classificacao, "Abaixo do peso");
         else if (cliente->imc < 26.4) strcpy(cliente->classificacao, "Peso normal");
@@ -206,7 +206,7 @@ void calcularIMC(Cliente *cliente) {
         else if (cliente->imc < 31.1) strcpy(cliente->classificacao, "Acima do peso ideal");
         else strcpy(cliente->classificacao, "Obeso");
     } 
-    // ClassificaÁ„o para mulheres
+    // Classifica√ß√£o para mulheres
     else {
         if (cliente->imc < 19.1) strcpy(cliente->classificacao, "Abaixo do peso");
         else if (cliente->imc < 25.8) strcpy(cliente->classificacao, "Peso normal");
@@ -221,10 +221,10 @@ float calcularPesoIdeal(float altura, char sexo) {
     float pesoIdeal = .0;
 	
     if (sexo == MASCULINO) {
-        pesoIdeal = (72.7 * altura) - 58;  // FÛrmula para homens
+        pesoIdeal = (72.7 * altura) - 58;  // F√≥rmula para homens
     }
     if (sexo == FEMININO) {
-        pesoIdeal = (62.1 * altura) - 44.7;  // FÛrmula para mulheres
+        pesoIdeal = (62.1 * altura) - 44.7;  // F√≥rmula para mulheres
     } 
     
     return pesoIdeal;
@@ -232,7 +232,10 @@ float calcularPesoIdeal(float altura, char sexo) {
 
 // Cadastra um novo cliente no sistema
 void cadastrarCliente() {
-    // Verifica se h· espaÁo para mais clientes
+	
+    setlocale(LC_ALL, "Portuguese");
+	
+	// Verifica se h√° espa√ßo para mais clientes
     if (totalClientes >= MAX_CLIENTES) {
         imprimirColorido(cor.vermelho, "Limite de clientes atingido!\n");
         return;
@@ -240,30 +243,32 @@ void cadastrarCliente() {
     
     Cliente novo;  // Cria uma nova estrutura Cliente
     
-    // Exibe cabeÁalho
+    // Exibe cabe√ßalho
     imprimirColorido(cor.azul, "\n--- Cadastro de Cliente ---\n");
     
-    // LÍ o nome
+    // L√™ o nome
     printf("Nome: ");
-    fgets(novo.nome, 50, stdin);
+    
+    fgets(novo.nome, 50, stdin);	
     novo.nome[strcspn(novo.nome, "\n")] = 0;  // Remove a quebra de linha do final
     
-    // Valida e lÍ o sexo (apenas 'M' ou 'F')
+    
+    // Valida e l√™ o sexo (apenas 'M' ou 'F')
     do {
         printf("Sexo (M/F): ");
         scanf(" %c", &novo.sexo);
         limparBuffer();
-        novo.sexo = toupper(novo.sexo);  // Converte para mai˙scula
+        novo.sexo = toupper(novo.sexo);  // Converte para mai√∫scula
         if (novo.sexo != 'M' && novo.sexo != 'F') {
-            imprimirColorido(cor.vermelho, "Sexo inv·lido! Digite M ou F.\n");
+            imprimirColorido(cor.vermelho, "Sexo inv√°lido! Digite M ou F.\n");
         }
     } while (novo.sexo != 'M' && novo.sexo != 'F');
     
-    // LÍ peso e altura (com validaÁ„o)
+    // L√™ peso e altura (com valida√ß√£o)
     novo.peso = lerFloatPositivo("Peso (kg): ");
     novo.altura = lerFloatPositivo("Altura (m): ");
     
-    // Calcula IMC e classificaÁ„o
+    // Calcula IMC e classifica√ß√£o
     calcularIMC(&novo);
     
     // Adiciona o novo cliente ao array
@@ -280,7 +285,7 @@ void cadastrarCliente() {
     imprimirColorido(cor.verde, "\n IMC calculado: %.2f - %s\n", novo.imc, novo.classificacao);
     printf("\n");
     
-    // Mostra tabela de referÍncia apropriada
+    // Mostra tabela de refer√™ncia apropriada
     if (novo.sexo == MASCULINO) {
         imprimirTabelaIMC_Homem();
     } else {
@@ -289,7 +294,7 @@ void cadastrarCliente() {
     
     // Calcula e exibe o peso ideal
     float pesoIdeal = calcularPesoIdeal(novo.altura, novo.sexo);
-    imprimirColorido(cor.amarelo, "\n Peso Ideal: %.2f\t%s vocÍ est· %.2fkg %s do seu peso ideal\n", 
+    imprimirColorido(cor.amarelo, "\n Peso Ideal: %.2f\t%s voc√™ est√° %.2fkg %s do seu peso ideal\n", 
         pesoIdeal, novo.nome, fabs(novo.peso - pesoIdeal), 
         (novo.peso > pesoIdeal) ? "Acima" : "Abaixo");
     
@@ -299,19 +304,21 @@ void cadastrarCliente() {
 
 // Lista todos os clientes cadastrados em formato de tabela
 void listarClientes() {
-    // Verifica se h· clientes cadastrados
+	
+
+    // Verifica se h√° clientes cadastrados
     if (totalClientes == 0) {
         imprimirColorido(cor.amarelo, "\nNenhum cliente cadastrado!\n");
         return;
     }
     
-    // Exibe cabeÁalho
+    // Exibe cabe√ßalho
     imprimirColorido(cor.azul, "\n--- Lista de Clientes ---\n");
     
-    // CabeÁalho da tabela com fundo amarelo e texto preto
+    // Cabe√ßalho da tabela com fundo amarelo e texto preto
     printf("%s%s", cor.fundo_amarelo, cor.preto);
     printf("%-30s %-5s %-8s %-8s %-8s %-25s\n%-89s\n", 
-           "Nome", "Sexo", "Peso", "Altura", "IMC", "ClassificaÁ„o", " ");
+           "Nome", "Sexo", "Peso", "Altura", "IMC", "Classifica√ß√£o", " ");
     printf("%s", cor.reset);
     
     // Imprime cada cliente com cores alternadas para melhor legibilidade
@@ -333,7 +340,7 @@ void listarClientes() {
 
 // Pesquisa clientes por nome ou parte do nome
 void pesquisarCliente() {
-    // Verifica se h· clientes cadastrados
+    // Verifica se h√° clientes cadastrados
     if (totalClientes == 0) {
         imprimirColorido(cor.amarelo, "\nNenhum cliente cadastrado para pesquisar!\n");
         return;
@@ -344,20 +351,20 @@ void pesquisarCliente() {
     fgets(termo, 50, stdin);
     termo[strcspn(termo, "\n")] = 0;  // Remove a quebra de linha
 
-    // Exibe cabeÁalho
+    // Exibe cabe√ßalho
     imprimirColorido(cor.azul, "\n--- Resultados da Pesquisa ---\n");
     
-    // CabeÁalho da tabela
+    // Cabe√ßalho da tabela
     printf("%s%s", cor.fundo_branco, cor.preto);
     printf("%-30s %-5s %-8s %-8s %-8s %-25s\n", 
-           "Nome", "Sexo", "Peso", "Altura", "IMC", "ClassificaÁ„o");
+           "Nome", "Sexo", "Peso", "Altura", "IMC", "Classifica√ß√£o");
     printf("%s", cor.reset);
 
     int encontrados = 0;  // Contador de clientes encontrados
     
     // Percorre todos os clientes procurando pelo termo
     for (int i = 0; i < totalClientes; i++) {
-        if (strstr(clientes[i].nome, termo) != NULL) {  // Verifica se o termo est· no nome
+        if (strstr(clientes[i].nome, termo) != NULL) {  // Verifica se o termo est√° no nome
             const char* corLinha = (encontrados % 2 == 0) ? cor.fundo_branco : cor.fundo_preto;
             printf("%s%s", corLinha, cor.preto);
             
@@ -382,9 +389,9 @@ void pesquisarCliente() {
     }
 }
 
-// Salva os dados dos clientes em um arquivo bin·rio
+// Salva os dados dos clientes em um arquivo bin√°rio
 void salvarDados() {
-    // Abre o arquivo para escrita bin·ria
+    // Abre o arquivo para escrita bin√°ria
     FILE *arquivo = fopen(ARQUIVO_DADOS, "wb");
     if (arquivo == NULL) {
         imprimirColorido(cor.vermelho, "Erro ao abrir arquivo para salvar!\n");
@@ -399,15 +406,15 @@ void salvarDados() {
     imprimirColorido(cor.verde, "Dados salvos com sucesso!\n");
 }
 
-// Carrega os dados dos clientes de um arquivo bin·rio
+// Carrega os dados dos clientes de um arquivo bin√°rio
 void carregarDados() {
-    // Abre o arquivo para leitura bin·ria
+    // Abre o arquivo para leitura bin√°ria
     FILE *arquivo = fopen(ARQUIVO_DADOS, "rb");
     if (arquivo == NULL) {
-        return;  // Se o arquivo n„o existe, simplesmente retorna
+        return;  // Se o arquivo n√£o existe, simplesmente retorna
     }
     
-    // LÍ o total de clientes e depois o array de clientes
+    // L√™ o total de clientes e depois o array de clientes
     fread(&totalClientes, sizeof(int), 1, arquivo);
     fread(clientes, sizeof(Cliente), totalClientes, arquivo);
     
@@ -421,14 +428,14 @@ void mostrarMenu() {
     printf("2. Listar clientes\n");
     printf("3. Pesquisar cliente\n");
     printf("5. Sair\n");
-    imprimirColorido(cor.amarelo, "Escolha uma opÁ„o: ");
+    imprimirColorido(cor.amarelo, "Escolha uma op√ß√£o: ");
 }
 
-// Exibe a tabela de classificaÁ„o do IMC
+// Exibe a tabela de classifica√ß√£o do IMC
 void imprimirTabelaIMC() {
-    // TÌtulo
+    // T√≠tulo
     printf("%s%s", cor.fundo_preto, cor.azul);
-    printf("\n=== TABELA DE CLASSIFICA«√O IMC ===\n");
+    printf("\n=== TABELA DE CLASSIFICA√á√ÉO IMC ===\n");
     printf("%s", cor.reset);
     
     // Tabelas para homens e mulheres
@@ -436,11 +443,11 @@ void imprimirTabelaIMC() {
     imprimirTabelaIMC_Mulher();
 }
 
-// Exibe a tabela de classificaÁ„o do IMC para homens
+// Exibe a tabela de classifica√ß√£o do IMC para homens
 void imprimirTabelaIMC_Homem() {
-    printf("\n%sCLASSIFICA«√O PARA HOMENS%s\n", cor.azul, cor.reset);
+    printf("\n%sCLASSIFICA√á√ÉO PARA HOMENS%s\n", cor.azul, cor.reset);
     printf("%s---------------------------------------------------%s\n", cor.branco, cor.reset);
-    printf("%s| %-25s | %-19s |%s\n", cor.amarelo ,"Faixa de IMC", "ClassificaÁ„o", cor.reset);
+    printf("%s| %-25s | %-19s |%s\n", cor.amarelo ,"Faixa de IMC", "Classifica√ß√£o", cor.reset);
     printf("%s|-------------------------------------------------|%s\n", cor.branco, cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.azul, "Abaixo de 20.7", "Abaixo do peso", cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.verde, "20.7 - 26.4", "Peso normal", cor.reset);
@@ -450,11 +457,11 @@ void imprimirTabelaIMC_Homem() {
     printf("%s---------------------------------------------------%s\n", cor.branco, cor.reset);
 }
 
-// Exibe a tabela de classificaÁ„o do IMC para mulheres
+// Exibe a tabela de classifica√ß√£o do IMC para mulheres
 void imprimirTabelaIMC_Mulher() {
-    printf("\n%sCLASSIFICA«√O PARA MULHERES%s\n", cor.azul, cor.reset);
+    printf("\n%sCLASSIFICA√á√ÉO PARA MULHERES%s\n", cor.azul, cor.reset);
     printf("%s---------------------------------------------------%s\n", cor.branco, cor.reset);
-    printf("%s| %-25s | %-19s |%s\n", cor.amarelo, "Faixa de IMC", "ClassificaÁ„o", cor.reset);
+    printf("%s| %-25s | %-19s |%s\n", cor.amarelo, "Faixa de IMC", "Classifica√ß√£o", cor.reset);
     printf("%s|-------------------------------------------------|%s\n", cor.branco, cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.azul, "Abaixo de 19.1", "Abaixo do peso", cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.verde, "19.1 - 25.8", "Peso normal", cor.reset);
@@ -464,31 +471,31 @@ void imprimirTabelaIMC_Mulher() {
     printf("%s---------------------------------------------------%s\n\n", cor.branco, cor.reset);
 }
 
-// Exibe arte ASCII do tÌtulo
+// Exibe arte ASCII do t√≠tulo
 void imprimir_ascii_art() {
     printf("\n");
     imprimirColorido(cor.azul,     " __________    __       __   ___________       ___________   ___________   ___________  ____     ____  ___________   ___________  ___       ___  ___________  ___       ___  _________\n");
-imprimirColorido(cor.vermelho, "¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶     ¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶     ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶     ¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶\n");
-imprimirColorido(cor.vermelho, " ØØØØ¶¶¶ØØØØ  ¶¶¶¶¶   ¶¶¶¶¶ ¶¶¶ØØØØØØØØØ      ¶¶¶ØØØØØØØ¶¶¶ ¶¶¶ØØØØØØØ¶¶¶ ¶¶¶ØØØØØØØ¶¶¶ ¶¶¶¶¶   ¶¶¶¶¶ ¶¶¶ØØØØØØØØØ   ØØØ ¶¶¶ØØØØ  ¶¶¶       ¶¶¶ ¶¶¶ØØØØØØØØØ  ¶¶¶       ¶¶¶ ¶¶¶ØØØØØØØØØ \n");
-imprimirColorido(cor.vermelho, "     ¶¶¶      ¶¶¶¶¶¶ ¶¶¶¶¶¶ ¶¶¶               ¶¶¶       ¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶ ¶¶¶¶¶¶ ¶¶¶                ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶          \n");
-imprimirColorido(cor.vermelho, "     ¶¶¶      ¶¶¶ ¶¶¶¶¶ ¶¶¶ ¶¶¶               ¶¶¶_______¶¶¶ ¶¶¶_______¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶ ¶¶¶¶¶ ¶¶¶ ¶¶¶_________       ¶¶¶      ¶¶¶_______¶¶¶ ¶¶¶_________  ¶¶¶       ¶¶¶ ¶¶¶_________ \n");
-imprimirColorido(cor.vermelho, "     ¶¶¶      ¶¶¶  ¶¶¶  ¶¶¶ ¶¶¶               ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶  ¶¶¶  ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶      ¶¶¶      ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶\n");
-imprimirColorido(cor.vermelho, "     ¶¶¶      ¶¶¶   Ø   ¶¶¶ ¶¶¶               ¶¶¶ØØØØØØØØØ  ¶¶¶ØØØØ¶¶¶ØØ  ¶¶¶       ¶¶¶ ¶¶¶   Ø   ¶¶¶ ¶¶¶ØØØØØØØØØ       ¶¶¶      ¶¶¶ØØØØØØØ¶¶¶ ¶¶¶ØØØØØØØØØ  ¶¶¶       ¶¶¶  ØØØØØØØØ¶¶¶\n");
-imprimirColorido(cor.vermelho, "     ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶               ¶¶¶           ¶¶¶     ¶¶¶   ¶¶¶       ¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶                ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶           ¶¶¶       ¶¶¶          ¶¶¶\n");
-imprimirColorido(cor.vermelho, " ____¶¶¶____  ¶¶¶       ¶¶¶ ¶¶¶_________      ¶¶¶           ¶¶¶      ¶¶¶  ¶¶¶_______¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶_________       ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶_________  ¶¶¶_______¶¶¶  ________¶¶¶\n");
-imprimirColorido(cor.vermelho, "¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶     ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶      ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶\n");
-imprimirColorido(cor.azul, 	   " ØØØØØØØØØØØ  ØØØ       ØØØ  ØØØØØØØØØØØ      ØØØ           ØØØ       ØØØ ØØØØØØØØØØØØØ ØØØ       ØØØ  ØØØØØØØØØØØ       ØØØ      ØØØ       ØØØ  ØØØØØØØØØØØ   ØØØØØØØØØØØ   ØØØØØØØØØØØØ\n");
+imprimirColorido(cor.vermelho, "¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶\n");
+imprimirColorido(cor.vermelho, " ¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶¬¶¬¶   ¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø      ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶   ¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø   ¬Ø¬Ø¬Ø ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø \n");
+imprimirColorido(cor.vermelho, "     ¬¶¬¶¬¶      ¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶               ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶                ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶          \n");
+imprimirColorido(cor.vermelho, "     ¬¶¬¶¬¶      ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶ ¬¶¬¶¬¶               ¬¶¬¶¬¶_______¬¶¬¶¬¶ ¬¶¬¶¬¶_______¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶ ¬¶¬¶¬¶_________       ¬¶¬¶¬¶      ¬¶¬¶¬¶_______¬¶¬¶¬¶ ¬¶¬¶¬¶_________  ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶_________ \n");
+imprimirColorido(cor.vermelho, "     ¬¶¬¶¬¶      ¬¶¬¶¬¶  ¬¶¬¶¬¶  ¬¶¬¶¬¶ ¬¶¬¶¬¶               ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶  ¬¶¬¶¬¶  ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶      ¬¶¬¶¬¶      ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶\n");
+imprimirColorido(cor.vermelho, "     ¬¶¬¶¬¶      ¬¶¬¶¬¶   ¬Ø   ¬¶¬¶¬¶ ¬¶¬¶¬¶               ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶¬Ø¬Ø  ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶   ¬Ø   ¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø       ¬¶¬¶¬¶      ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶       ¬¶¬¶¬¶  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶\n");
+imprimirColorido(cor.vermelho, "     ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶               ¬¶¬¶¬¶           ¬¶¬¶¬¶     ¬¶¬¶¬¶   ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶                ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶          ¬¶¬¶¬¶\n");
+imprimirColorido(cor.vermelho, " ____¬¶¬¶¬¶____  ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶_________      ¬¶¬¶¬¶           ¬¶¬¶¬¶      ¬¶¬¶¬¶  ¬¶¬¶¬¶_______¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶_________       ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶_________  ¬¶¬¶¬¶_______¬¶¬¶¬¶  ________¬¶¬¶¬¶\n");
+imprimirColorido(cor.vermelho, "¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶      ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶\n");
+imprimirColorido(cor.azul, 	   " ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø      ¬Ø¬Ø¬Ø           ¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø ¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø      ¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø   ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø   ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø\n");
                                                                                                                                                                               
 imprimirColorido(cor.verde,   "____       ___  ___________   ___________       ___________  ___       ___ ____     ____  ___________   ___________ ___________   ___       ___  ___________\n");                          
-imprimirColorido(cor.amarelo, "¶¶¶¶      ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶     ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶     ¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶\n");                          
-imprimirColorido(cor.amarelo, "¶¶¶¶¶     ¶¶¶ ¶¶¶ØØØØØØØ¶¶¶ ¶¶¶ØØØØØØØ¶¶¶     ¶¶¶ØØØØØØØØØ  ¶¶¶       ¶¶¶ ¶¶¶¶¶   ¶¶¶¶¶ ¶¶¶ØØØØØØØ¶¶¶ ¶¶¶ØØØØØØØ¶¶¶ ØØØØ ¶¶¶ØØØØ  ¶¶¶       ¶¶¶ ¶¶¶ØØØØØØØØØ \n");                          
-imprimirColorido(cor.amarelo, "¶¶¶¶¶¶    ¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶       ¶¶¶     ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶¶¶¶ ¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶       ¶¶¶      ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶          \n");                          
-imprimirColorido(cor.amarelo, "¶¶¶ ¶¶¶   ¶¶¶ ¶¶¶_______¶¶¶ ¶¶¶       ¶¶¶     ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶ ¶¶¶¶¶ ¶¶¶ ¶¶¶_______¶¶¶ ¶¶¶_______¶¶¶      ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶_________ \n");                          
-imprimirColorido(cor.amarelo, "¶¶¶  ¶¶¶  ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶     ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶  ¶¶¶  ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶      ¶¶¶      ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶\n");                          
-imprimirColorido(cor.amarelo, "¶¶¶   ¶¶¶ ¶¶¶ ¶¶¶ØØØØØØØ¶¶¶ ¶¶¶       ¶¶¶     ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶   Ø   ¶¶¶ ¶¶¶ØØØØØØØØØ  ¶¶¶ØØØØ¶¶¶ØØ       ¶¶¶      ¶¶¶       ¶¶¶  ØØØØØØØØ¶¶¶\n");                          
-imprimirColorido(cor.amarelo, "¶¶¶    ¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶       ¶¶¶     ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶           ¶¶¶     ¶¶¶        ¶¶¶      ¶¶¶       ¶¶¶          ¶¶¶\n");                          
-imprimirColorido(cor.amarelo, "¶¶¶     ¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶_______¶¶¶     ¶¶¶_________  ¶¶¶_______¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶           ¶¶¶      ¶¶¶   ____¶¶¶____  ¶¶¶_______¶¶¶  ________¶¶¶\n");                          
-imprimirColorido(cor.amarelo, "¶¶¶      ¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶     ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶       ¶¶¶ ¶¶¶           ¶¶¶       ¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶¶¶¶¶¶\n");                          
-imprimirColorido(cor.verde,   "ØØØ       ØØ  ØØØ       ØØØ ØØØØØØØØØØØØ       ØØØØØØØØØØØ  ØØØØØØØØØØØØ  ØØØ       ØØØ ØØØ           ØØØ       ØØØ  ØØØØØØØØØØØ  ØØØØØØØØØØØ    ØØØØØØØØØØØ \n");            
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶¬¶      ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶\n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶     ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶   ¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬Ø¬Ø¬Ø¬Ø ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø \n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶¬¶¬¶¬¶    ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶     ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶      ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶          \n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶ ¬¶¬¶¬¶   ¬¶¬¶¬¶ ¬¶¬¶¬¶_______¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶     ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶ ¬¶¬¶¬¶_______¬¶¬¶¬¶ ¬¶¬¶¬¶_______¬¶¬¶¬¶      ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶_________ \n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶  ¬¶¬¶¬¶  ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶     ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶  ¬¶¬¶¬¶  ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶      ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶\n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶   ¬¶¬¶¬¶ ¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶     ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶   ¬Ø   ¬¶¬¶¬¶ ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬¶¬¶¬¶¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶¬Ø¬Ø       ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬¶¬¶¬¶\n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶    ¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶     ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶           ¬¶¬¶¬¶     ¬¶¬¶¬¶        ¬¶¬¶¬¶      ¬¶¬¶¬¶       ¬¶¬¶¬¶          ¬¶¬¶¬¶\n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶     ¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶_______¬¶¬¶¬¶     ¬¶¬¶¬¶_________  ¬¶¬¶¬¶_______¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶           ¬¶¬¶¬¶      ¬¶¬¶¬¶   ____¬¶¬¶¬¶____  ¬¶¬¶¬¶_______¬¶¬¶¬¶  ________¬¶¬¶¬¶\n");                          
+imprimirColorido(cor.amarelo, "¬¶¬¶¬¶      ¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶     ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶           ¬¶¬¶¬¶       ¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶ ¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶¬¶\n");                          
+imprimirColorido(cor.verde,   "¬Ø¬Ø¬Ø       ¬Ø¬Ø  ¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø ¬Ø¬Ø¬Ø           ¬Ø¬Ø¬Ø       ¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø  ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø    ¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø¬Ø \n");            
     printf("\n");
 }
