@@ -39,12 +39,12 @@ typedef struct {
     char classificacao[30];
 } Cliente;
 
-// VariÃ¡veis globais
+// Variáveis globais
 Cliente clientes[MAX_CLIENTES];
 int totalClientes = 0;
 ConsoleCores cor;
 
-// ProtÃ³tipos de funÃ§Ãµes
+// Protótipos de funções
 void inicializarCores();
 void liberarCores();
 void imprimirColorido(const char* cor, const char* formato, ...);
@@ -63,31 +63,32 @@ void configuracoes();
 void imprimirTabelaIMC_Homem();
 void imprimirTabelaIMC_Mulher();
 
+
 void imprimir_ascii_art() {
     printf("\n");
-imprimirColorido(cor.azul, "___________  __       __  ___________       ___________  ___________  ___________  __       __  ___________  ___________  _         _  ___________  _         _  ___________  \n");
-imprimirColorido(cor.vermelho, "Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦\n");
-imprimirColorido(cor.vermelho, " Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¯Â¯Â¯Â¯ Â¦Â¦Â¦Â¦Â¦   Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯      Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦   Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¯Â¯Â¯Â¯ Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ \n");
-imprimirColorido(cor.vermelho, "     Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦               Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦               Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦          \n");
-imprimirColorido(cor.vermelho, "     Â¦Â¦Â¦     Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦Â¦               Â¦Â¦Â¦_______Â¦Â¦Â¦Â¦Â¦Â¦_______Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦Â¦_________      Â¦Â¦Â¦     Â¦Â¦Â¦_______Â¦Â¦Â¦Â¦Â¦Â¦_________ Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦_________ \n");
-imprimirColorido(cor.vermelho, "     Â¦Â¦Â¦     Â¦Â¦Â¦  Â¦Â¦Â¦  Â¦Â¦Â¦Â¦Â¦Â¦               Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦  Â¦Â¦Â¦  Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦\n");
-imprimirColorido(cor.vermelho, "     Â¦Â¦Â¦     Â¦Â¦Â¦   Â¯   Â¦Â¦Â¦Â¦Â¦Â¦               Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¯Â¯ Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦   Â¯   Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯      Â¦Â¦Â¦     Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¦Â¦Â¦       Â¦Â¦Â¦ Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦\n");
-imprimirColorido(cor.vermelho, "     Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦               Â¦Â¦Â¦          Â¦Â¦Â¦     Â¦Â¦Â¦  Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦               Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦          Â¦Â¦Â¦\n");
-imprimirColorido(cor.vermelho, " ____Â¦Â¦Â¦____ Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦_________      Â¦Â¦Â¦          Â¦Â¦Â¦      Â¦Â¦Â¦ Â¦Â¦Â¦_______Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦_________      Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦_________ Â¦Â¦Â¦_______Â¦Â¦Â¦ _________Â¦Â¦Â¦\n");
-imprimirColorido(cor.vermelho, "Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦\n");
-imprimirColorido(cor.azul, " Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯         Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯       Â¯            Â¯         Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯         Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯       Â¯       Â¯         Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ \n");
+imprimirColorido(cor.azul,     " __________    __       __   ___________       ___________   ___________   ___________  ____     ____  ___________   ___________  ___       ___  ___________  ___       ___  _________\n");
+imprimirColorido(cor.vermelho, "¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦     ¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦     ¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦\n");
+imprimirColorido(cor.vermelho, " ¯¯¯¯¦¦¦¯¯¯¯  ¦¦¦¦¦   ¦¦¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯      ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¦¦¦¦¦   ¦¦¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯   ¯¯¯ ¦¦¦¯¯¯¯  ¦¦¦       ¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯  ¦¦¦       ¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯ \n");
+imprimirColorido(cor.vermelho, "     ¦¦¦      ¦¦¦¦¦¦ ¦¦¦¦¦¦ ¦¦¦               ¦¦¦       ¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦ ¦¦¦¦¦¦ ¦¦¦                ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦          \n");
+imprimirColorido(cor.vermelho, "     ¦¦¦      ¦¦¦ ¦¦¦¦¦ ¦¦¦ ¦¦¦               ¦¦¦_______¦¦¦ ¦¦¦_______¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦ ¦¦¦¦¦ ¦¦¦ ¦¦¦_________       ¦¦¦      ¦¦¦_______¦¦¦ ¦¦¦_________  ¦¦¦       ¦¦¦ ¦¦¦_________ \n");
+imprimirColorido(cor.vermelho, "     ¦¦¦      ¦¦¦  ¦¦¦  ¦¦¦ ¦¦¦               ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦  ¦¦¦  ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦      ¦¦¦      ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦\n");
+imprimirColorido(cor.vermelho, "     ¦¦¦      ¦¦¦   ¯   ¦¦¦ ¦¦¦               ¦¦¦¯¯¯¯¯¯¯¯¯  ¦¦¦¯¯¯¯¦¦¦¯¯  ¦¦¦       ¦¦¦ ¦¦¦   ¯   ¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯       ¦¦¦      ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯  ¦¦¦       ¦¦¦  ¯¯¯¯¯¯¯¯¦¦¦\n");
+imprimirColorido(cor.vermelho, "     ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦               ¦¦¦           ¦¦¦     ¦¦¦   ¦¦¦       ¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦                ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦           ¦¦¦       ¦¦¦          ¦¦¦\n");
+imprimirColorido(cor.vermelho, " ____¦¦¦____  ¦¦¦       ¦¦¦ ¦¦¦_________      ¦¦¦           ¦¦¦      ¦¦¦  ¦¦¦_______¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦_________       ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦_________  ¦¦¦_______¦¦¦  ________¦¦¦\n");
+imprimirColorido(cor.vermelho, "¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦     ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦      ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦\n");
+imprimirColorido(cor.azul, 	   " ¯¯¯¯¯¯¯¯¯¯¯  ¯¯¯       ¯¯¯  ¯¯¯¯¯¯¯¯¯¯¯      ¯¯¯           ¯¯¯       ¯¯¯ ¯¯¯¯¯¯¯¯¯¯¯¯¯ ¯¯¯       ¯¯¯  ¯¯¯¯¯¯¯¯¯¯¯       ¯¯¯      ¯¯¯       ¯¯¯  ¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯¯¯¯¯¯¯¯¯\n");
                                                                                                                                                                               
-imprimirColorido(cor.verde, " __        _  ___________  ___________       ___________  _         _  __       __  ___________  ___________  ___________  _         _  ___________ \n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦Â¦      Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦\n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦     Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦   Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦ Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¯Â¯Â¯Â¯ Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ \n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦Â¦Â¦Â¦    Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦     Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦     Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦          \n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦ Â¦Â¦Â¦   Â¦Â¦Â¦Â¦Â¦Â¦_______Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦     Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦Â¦_______Â¦Â¦Â¦Â¦Â¦Â¦_______Â¦Â¦Â¦     Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦_________ \n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦  Â¦Â¦Â¦  Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦     Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦  Â¦Â¦Â¦  Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦\n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦   Â¦Â¦Â¦ Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦     Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦   Â¯   Â¦Â¦Â¦Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¦Â¦Â¦Â¯Â¯Â¯Â¯Â¦Â¦Â¦Â¯Â¯      Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦ Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¦Â¦Â¦\n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦    Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦     Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦          Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦     Â¦Â¦Â¦       Â¦Â¦Â¦          Â¦Â¦Â¦\n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦_______Â¦Â¦Â¦     Â¦Â¦Â¦_________ Â¦Â¦Â¦_______Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦          Â¦Â¦Â¦      Â¦Â¦Â¦  ____Â¦Â¦Â¦____ Â¦Â¦Â¦_______Â¦Â¦Â¦ _________Â¦Â¦Â¦\n");                          
-imprimirColorido(cor.amarelo, "Â¦Â¦Â¦      Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦     Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦          Â¦Â¦Â¦       Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦Â¦\n");                          
-imprimirColorido(cor.verde, " Â¯        Â¯Â¯  Â¯         Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯       Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯         Â¯  Â¯            Â¯         Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯  Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ \n");                          
+imprimirColorido(cor.verde,   "____       ___  ___________   ___________       ___________  ___       ___ ____     ____  ___________   ___________ ___________   ___       ___  ___________\n");                          
+imprimirColorido(cor.amarelo, "¦¦¦¦      ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦     ¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦\n");                          
+imprimirColorido(cor.amarelo, "¦¦¦¦¦     ¦¦¦ ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¦¦¦¯¯¯¯¯¯¯¦¦¦     ¦¦¦¯¯¯¯¯¯¯¯¯  ¦¦¦       ¦¦¦ ¦¦¦¦¦   ¦¦¦¦¦ ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¯¯¯¯ ¦¦¦¯¯¯¯  ¦¦¦       ¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯ \n");                          
+imprimirColorido(cor.amarelo, "¦¦¦¦¦¦    ¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦       ¦¦¦     ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦¦¦¦ ¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦       ¦¦¦      ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦          \n");                          
+imprimirColorido(cor.amarelo, "¦¦¦ ¦¦¦   ¦¦¦ ¦¦¦_______¦¦¦ ¦¦¦       ¦¦¦     ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦ ¦¦¦¦¦ ¦¦¦ ¦¦¦_______¦¦¦ ¦¦¦_______¦¦¦      ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦_________ \n");                          
+imprimirColorido(cor.amarelo, "¦¦¦  ¦¦¦  ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦     ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦  ¦¦¦  ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦      ¦¦¦      ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦\n");                          
+imprimirColorido(cor.amarelo, "¦¦¦   ¦¦¦ ¦¦¦ ¦¦¦¯¯¯¯¯¯¯¦¦¦ ¦¦¦       ¦¦¦     ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦   ¯   ¦¦¦ ¦¦¦¯¯¯¯¯¯¯¯¯  ¦¦¦¯¯¯¯¦¦¦¯¯       ¦¦¦      ¦¦¦       ¦¦¦  ¯¯¯¯¯¯¯¯¦¦¦\n");                          
+imprimirColorido(cor.amarelo, "¦¦¦    ¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦       ¦¦¦     ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦           ¦¦¦     ¦¦¦        ¦¦¦      ¦¦¦       ¦¦¦          ¦¦¦\n");                          
+imprimirColorido(cor.amarelo, "¦¦¦     ¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦_______¦¦¦     ¦¦¦_________  ¦¦¦_______¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦           ¦¦¦      ¦¦¦   ____¦¦¦____  ¦¦¦_______¦¦¦  ________¦¦¦\n");                          
+imprimirColorido(cor.amarelo, "¦¦¦      ¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦     ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦       ¦¦¦ ¦¦¦           ¦¦¦       ¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦ ¦¦¦¦¦¦¦¦¦¦¦¦¦\n");                          
+imprimirColorido(cor.verde,   "¯¯¯       ¯¯  ¯¯¯       ¯¯¯ ¯¯¯¯¯¯¯¯¯¯¯¯       ¯¯¯¯¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯¯¯¯¯  ¯¯¯       ¯¯¯ ¯¯¯           ¯¯¯       ¯¯¯  ¯¯¯¯¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯¯¯¯    ¯¯¯¯¯¯¯¯¯¯¯ \n");                          
                                                                                                                                                                               
     printf("\n");
 }
@@ -126,7 +127,7 @@ int main() {
                 imprimirColorido(cor.verde, "Saindo...\n");
                 break;
             default:
-                imprimirColorido(cor.vermelho, "OpÃ§Ã£o invÃ¡lida!\n");
+                imprimirColorido(cor.vermelho, "Opção inválida!\n");
         }
     } while (opcao != 5);
 
@@ -134,14 +135,13 @@ int main() {
     return 0;
 }
 
-// ImplementaÃ§Ã£o das funÃ§Ãµes
-
+// Implementação das funções
 void configuracoes() {
     #ifdef _WIN32
-    // Obter handle para o console de saÃ­da
+    // Obter handle para o console de saída
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     
-    // Verificar se Ã© um console vÃ¡lido
+    // Verificar se é um console válido
     if (hOut == INVALID_HANDLE_VALUE) {
         return;
     }
@@ -183,7 +183,7 @@ void inicializarCores() {
 }
 
 void liberarCores() {
-    // NÃ£o Ã© necessÃ¡rio liberar memÃ³ria pois usamos strings literais
+    // Não é necessário liberar memória pois usamos strings literais
 }
 
 void imprimirColorido(const char* cor_, const char* formato, ...) {
@@ -209,7 +209,7 @@ float lerFloatPositivo(const char* mensagem) {
         scanf("%f", &valor);
         limparBuffer();
         if (valor <= 0) {
-            imprimirColorido(cor.vermelho, "Valor invÃ¡lido! Digite um nÃºmero positivo.\n");
+            imprimirColorido(cor.vermelho, "Valor inválido! Digite um número positivo.\n");
         }
     } while (valor <= 0);
     return valor;
@@ -253,7 +253,7 @@ void cadastrarCliente() {
         limparBuffer();
         novo.sexo = toupper(novo.sexo);
         if (novo.sexo != 'M' && novo.sexo != 'F') {
-            imprimirColorido(cor.vermelho, "Sexo invÃ¡lido! Digite M ou F.\n");
+            imprimirColorido(cor.vermelho, "Sexo inválido! Digite M ou F.\n");
         }
     } while (novo.sexo != 'M' && novo.sexo != 'F');
     
@@ -295,10 +295,10 @@ void listarClientes() {
     
     imprimirColorido(cor.azul, "\n--- Lista de Clientes ---\n");
     
-    // CabeÃ§alho da tabela com fundo branco e texto preto
+    // Cabeçalho da tabela com fundo branco e texto preto
     printf("%s%s", cor.fundo_amarelo, cor.preto);
     printf("%-30s %-5s %-8s %-8s %-8s %-25s\n%-89s\n", 
-           "Nome", "Sexo", "Peso", "Altura", "IMC", "ClassificaÃ§Ã£o", " ");
+           "Nome", "Sexo", "Peso", "Altura", "IMC", "Classificação", " ");
     printf("%s", cor.reset);
     
     for (int i = 0; i < totalClientes; i++) {
@@ -331,10 +331,10 @@ void pesquisarCliente() {
 
     imprimirColorido(cor.azul, "\n--- Resultados da Pesquisa ---\n");
     
-    // CabeÃ§alho da tabela
+    // Cabeçalho da tabela
     printf("%s%s", cor.fundo_branco, cor.preto);
     printf("%-30s %-5s %-8s %-8s %-8s %-25s\n", 
-           "Nome", "Sexo", "Peso", "Altura", "IMC", "ClassificaÃ§Ã£o");
+           "Nome", "Sexo", "Peso", "Altura", "IMC", "Classificação");
     printf("%s", cor.reset);
 
     int encontrados = 0;
@@ -380,7 +380,7 @@ void salvarDados() {
 void carregarDados() {
     FILE *arquivo = fopen(ARQUIVO_DADOS, "rb");
     if (arquivo == NULL) {
-        return; // Arquivo nÃ£o existe ainda
+        return; // Arquivo não existe ainda
     }
     
     fread(&totalClientes, sizeof(int), 1, arquivo);
@@ -395,13 +395,13 @@ void mostrarMenu() {
     printf("2. Listar clientes\n");
     printf("3. Pesquisar cliente\n");
     printf("5. Sair\n");
-    imprimirColorido(cor.amarelo, "Escolha uma opÃ§Ã£o: ");
+    imprimirColorido(cor.amarelo, "Escolha uma opção: ");
 }
 
 void imprimirTabelaIMC() {
-    // TÃ­tulo
+    // Título
     printf("%s%s", cor.fundo_preto, cor.azul);
-    printf("\n=== TABELA DE CLASSIFICAÃ‡ÃƒO IMC ===\n");
+    printf("\n=== TABELA DE CLASSIFICAÇÃO IMC ===\n");
     printf("%s", cor.reset);
     
     imprimirTabelaIMC_Homem();
@@ -412,9 +412,9 @@ void imprimirTabelaIMC() {
 
 void imprimirTabelaIMC_Homem() {
 	// Tabela para homens
-    printf("\n%sCLASSIFICAÃ‡ÃƒO PARA HOMENS%s\n", cor.azul, cor.reset);
+    printf("\n%sCLASSIFICAÇÃO PARA HOMENS%s\n", cor.azul, cor.reset);
     printf("%s---------------------------------------------------%s\n", cor.branco, cor.reset);
-    printf("%s| %-25s | %-19s |%s\n", cor.amarelo ,"Faixa de IMC", "ClassificaÃ§Ã£o", cor.reset);
+    printf("%s| %-25s | %-19s |%s\n", cor.amarelo ,"Faixa de IMC", "Classificação", cor.reset);
     printf("%s|-------------------------------------------------|%s\n", cor.branco, cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.azul, "Abaixo de 20.7", "Abaixo do peso", cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.verde, "20.7 - 26.4", "Peso normal", cor.reset);
@@ -426,9 +426,9 @@ void imprimirTabelaIMC_Homem() {
 
 void imprimirTabelaIMC_Mulher() {
 	// Tabela para mulheres
-    printf("\n%sCLASSIFICAÃ‡ÃƒO PARA MULHERES%s\n", cor.azul, cor.reset);
+    printf("\n%sCLASSIFICAÇÃO PARA MULHERES%s\n", cor.azul, cor.reset);
     printf("%s---------------------------------------------------%s\n", cor.branco, cor.reset);
-    printf("%s| %-25s | %-19s |%s\n", cor.amarelo, "Faixa de IMC", "ClassificaÃ§Ã£o", cor.reset);
+    printf("%s| %-25s | %-19s |%s\n", cor.amarelo, "Faixa de IMC", "Classificação", cor.reset);
     printf("%s|-------------------------------------------------|%s\n", cor.branco, cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.azul, "Abaixo de 19.1", "Abaixo do peso", cor.reset);
     printf("%s| %-25s | %-19s |%s\n", cor.verde, "19.1 - 25.8", "Peso normal", cor.reset);
@@ -437,3 +437,5 @@ void imprimirTabelaIMC_Mulher() {
     printf("%s| %-25s | %-19s |%s\n", cor.vermelho, "Acima de 32.3", "Obeso", cor.reset);
     printf("%s---------------------------------------------------%s\n\n", cor.branco, cor.reset);
 }
+
+
